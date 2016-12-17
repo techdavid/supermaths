@@ -138,12 +138,13 @@ body {
   font-family: "Bungee", sans-serif;
   font-size: 1.5em;
   margin-right: 20px;
-  vertical-align: middle;
   transition: color 0.1s;
+  vertical-align: top;
 }
 
 .supermaths .answer {
   position: relative;
+  height: 25px;
 }
 .supermaths .answer.disabled::before {
   content: " ";
@@ -162,6 +163,20 @@ body {
   color: yellow !important;
 }
 
+.supermaths .answer::after {
+  content: "Please answer this question!";
+  color: yellow;
+  font-family: "Bungee", sans-serif;
+  line-height: 25px;
+  margin-left: 20px;
+  vertical-align: top;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.supermaths .answer[data-state="empty"]::after {
+  opacity: 1;
+}
+
 .supermaths .answer.fraction input {
   background-color: transparent;
   border: none;
@@ -172,7 +187,6 @@ body {
   padding: 0;
   font-family: "Bungee", sans-serif;
   font-size: 1.5em;
-  vertical-align: middle;
   transition: color 0.1s;
 }
 
@@ -181,7 +195,6 @@ body {
   font-family: "Bungee", sans-serif;
   font-size: 1.5em;
   margin: 0 10px;
-  vertical-align: middle;
   transition: color 0.1s;
 }
 
