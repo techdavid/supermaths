@@ -67,7 +67,7 @@ class SuperMaths {
           Object.keys(this.topics).indexOf(topic[1]) !== -1) {
         this.page.textContent = "Loading…";
         window.setTimeout(() => {
-          this.showTopic(topic[1]);
+          this.loadTopic(topic[1]);
         }, 0);
       } else {
         location.hash = "#topics";
@@ -249,15 +249,17 @@ class SuperMaths {
   showTopics() {
     this.topicList.classList.add("show");
     this.topicQuestions.classList.remove("show");
-    this.topicQuestions.innerHTML = "";
 
     this.page.textContent = "Topics";
     document.title = "SuperMaths – Topics";
   }
 
-  showTopic(id) {
+  loadTopic(id) {
     this.topicList.classList.remove("show");
     this.topicQuestions.classList.add("show");
+
+    this.topicQuestions.innerHTML = "";
+    this.topicQuestions.setAttribute("data-id", id);
 
     this.page.textContent = this.topics[id].name;
     document.title = `SuperMaths – ${this.topics[id].name}`;

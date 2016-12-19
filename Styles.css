@@ -89,6 +89,10 @@ body {
 .supermaths .questions {
   width: 1000px;
   margin: 0 auto;
+  display: none;
+}
+.supermaths .questions.show {
+  display: block;
 }
 
 .supermaths .question {
