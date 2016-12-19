@@ -25,11 +25,11 @@ supermaths.boilerplate("SCHOOLYEAR", {
 });
 supermaths.boilerplate("GIRLNAME", {
   type: "list",
-  values: ["Isabel", "Rosie", "Amelia", "Anna", "Lauren", "Emily"]
+  values: ["Isabel", "Rosie", "Amelia", "Anna", "Lauren", "Emily", "Katie"]
 });
 supermaths.boilerplate("HAIRCOLOUR", {
   type: "list",
-  values: ["blonde", "pink", "brown", "black"]
+  values: ["blonde", "pink", "brown", "black", "chesnut"]
 });
 
 supermaths.addTopic("fractions", "Fractions");
@@ -47,10 +47,15 @@ supermaths.addQuestion("fractions", {
       min: 0.1,
       max: 0.6,
       dp: 1
+    },
+    "C": {
+      type: "int",
+      min: 4,
+      max: 8
     }
   },
   header:
-    "In %GIRLNAME's school, one fifth of the pupils are in Year " +
+    "In %GIRLNAME's school, #{1 / $$C}f of the pupils are in Year " +
     "%SCHOOLYEAR. The ratio of girls to boys in Year %SCHOOLYEAR is " +
     "$A, and $B of the girls in Year %SCHOOLYEAR have %HAIRCOLOUR " +
     "hair.",
@@ -62,7 +67,7 @@ supermaths.addQuestion("fractions", {
       answers: [
         {
           label: "answer:",
-          value: "($$A * $$B) / 5",
+          value: "($$A * $$B) / $$C",
           type: "fraction"
         }
       ],
@@ -70,17 +75,17 @@ supermaths.addQuestion("fractions", {
         "The ratio $A means that for every 5 pupils in Year %SCHOOLYEAR, " +
         "there are #{$$A * 5} girls and #{5 - ($$A * 5)} boys. Therefore, " +
         "the fraction of girls in Year %SCHOOLYEAR is #{$$A}f. To find the " +
-        "number of girls in Year %SCHOOLYEAR only, multiply this by one " +
-        "fifth:",
+        "number of girls in Year %SCHOOLYEAR only, multiply this by " +
+        "#{1 / $$C}f:",
 
-        "$$\\frac{1}{5} \\times \\frac{#{$$A*5}}{5} = " +
-        "\\frac{1 \\times #{$$A*5}}{5 \\times 5} = \\frac{#{$$A*5}}{25} $$",
+        "$$\\frac{1}{$$C} \\times \\frac{#{$$A*5}}{5} = " +
+        "\\frac{1 \\times #{$$A*5}}{$$C \\times 5} = " +
+        "\\frac{#{$$A*5}}{#{$$C*5}} ?<(gcd($$A*5,$$C*5)>1)><{= " +
+        "\\frac{#{$$A*5/gcd($$A*5,$$C*5)}}{#{$$C*5/gcd($$A*5,$$C*5)}}}> $$",
 
         "The percentage $B is equal to the fraction #{$$B}f. Multiplying " +
-        "this with #{$$A / 5}f gives us the final answer #{($$A * $$B) / 5}f."
+        "this with #{$$A / $$C}f gives us the final answer #{($$A*$$B) / $$C}f."
       ]
     }
   ]
 });
-
-supermaths.showTopics();

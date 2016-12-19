@@ -39,7 +39,7 @@ class SuperMaths {
 
     this.page = document.createElement("div");
     this.page.className = "page";
-    this.page.textContent = "Topics";
+    this.page.textContent = "Loading…";
 
     innerHeader.appendChild(title);
     innerHeader.appendChild(this.page);
@@ -62,9 +62,13 @@ class SuperMaths {
         return;
       }
 
-      var topic = location.hash.match(/^#topic=(.+)/)[1];
-      if (Object.keys(this.topics).indexOf(topic) !== -1) {
-        this.showTopic(topic);
+      var topic = location.hash.match(/^#topic=(.+)/);
+      if (topic && topic[1] &&
+          Object.keys(this.topics).indexOf(topic[1]) !== -1) {
+        this.page.textContent = "Loading…";
+        window.setTimeout(() => {
+          this.showTopic(topic[1]);
+        }, 0);
       } else {
         location.hash = "#topics";
       }
@@ -75,7 +79,7 @@ class SuperMaths {
   static template(obj) {
     if (obj.type === "int") {
       return () => {
-        var num = math.randomInt(obj.min, obj.max);
+        var num = math.randomInt(obj.min, obj.max + 1) * (obj.multiplier||1);
         return [num, num.toString()];
       };
     }
@@ -119,6 +123,43 @@ class SuperMaths {
         text.replace(new RegExp("\\$\\$" + i, "g"), values.templates[i][0]);
       text = text.replace(new RegExp("\\$" + i, "g"), values.templates[i][1]);
     }
+
+    var evaltostring = (exp) => math.eval(exp).toString();
+    var evaltofract = (exp) => {
+      let fraction = math.create({number: "Fraction"}).eval(exp);
+
+      let top = fraction.n.toString();
+      let bottom = fraction.d.toString();
+      return "\\(\\frac{" + top + "}{" + bottom + "}\\)";
+    };
+
+    var expression = /\?<\((.+?)\)><{(.+?)}>/;
+    var match = expression.exec(text);
+    while (match) {
+      let condition = math.eval(match[1]);
+      if (condition) {
+        text = text.replace(expression, match[2]);
+      } else {
+        text = text.replace(expression, "");
+      }
+
+      match = expression.exec(text);
+    }
+
+    expression = /#{(.+?)}(f?)/;
+    match = expression.exec(text);
+    while (match) {
+      let matheval;
+      if (match[2]) {
+        matheval = evaltofract;
+      } else {
+        matheval = evaltostring;
+      }
+
+      text = text.replace(expression, matheval(match[1]).toString());
+      match = expression.exec(text);
+    }
+
     return text;
   }
 
@@ -134,35 +175,9 @@ class SuperMaths {
   }
 
   static genExp(values, explanation) {
-    var expression = /#{(.+?)}(f?)/;
-
-    var evaltostring = (exp) => math.eval(exp).toString();
-    var evaltofract = (exp) => {
-      let fraction = math.create({number: "Fraction"}).eval(exp);
-
-      let top = fraction.n.toString();
-      let bottom = fraction.d.toString();
-      return "\\(\\frac{" + top + "}{" + bottom + "}\\)";
-    };
-
     var generated = [];
     for (let i = 0; i < explanation.length; i += 1) {
-      let text = SuperMaths.gen(values, explanation[i]);
-      let match = expression.exec(text);
-
-      while (match) {
-        let matheval;
-        if (match[2]) {
-          matheval = evaltofract;
-        } else {
-          matheval = evaltostring;
-        }
-
-        text = text.replace(expression, matheval(match[1]).toString());
-        match = expression.exec(text);
-      }
-
-      generated[i] = text;
+      generated[i] = SuperMaths.gen(values, explanation[i]);
     }
     return generated;
   }
