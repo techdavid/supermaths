@@ -163,6 +163,14 @@ class SuperMaths {
     return text;
   }
 
+  static genExp(values, explanation) {
+    var generated = [];
+    for (let i = 0; i < explanation.length; i += 1) {
+      generated[i] = SuperMaths.gen(values, explanation[i]);
+    }
+    return generated;
+  }
+
   static randomize(globalVars, templates) {
     var values = {globalVars: {}, templates: {}};
     for (let i in globalVars) {
@@ -172,14 +180,6 @@ class SuperMaths {
       values.templates[i] = templates[i]();
     }
     return values;
-  }
-
-  static genExp(values, explanation) {
-    var generated = [];
-    for (let i = 0; i < explanation.length; i += 1) {
-      generated[i] = SuperMaths.gen(values, explanation[i]);
-    }
-    return generated;
   }
 
   boilerplate(id, obj) {
