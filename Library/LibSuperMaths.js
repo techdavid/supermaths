@@ -327,6 +327,13 @@ class SuperMaths {
             answerbox.appendChild(top);
             answerbox.appendChild(divider);
             answerbox.appendChild(bottom);
+          } else if (answer.type === "int") {
+            answerbox.classList.add("int");
+
+            let input = document.createElement("input");
+            input.type = "number";
+            input.placeholder = "?";
+            answerbox.appendChild(input);
           }
 
           el.appendChild(answerbox);
@@ -360,6 +367,8 @@ class SuperMaths {
   }
 
   validate(answers) {
+    var allDone = true;
+
     for (let i = 0; i < answers.length; i += 1) {
       let question = answers[i];
       let questionEl = this.topicQuestions.querySelectorAll(".question")[i];
@@ -380,10 +389,26 @@ class SuperMaths {
 
             if (!top || !bottom) {
               answerEl.setAttribute("data-state", "empty");
+              allDone = false;
+
               continue;
             }
 
             if (math.equal(fmath.eval(top + "/" + bottom), answer.value)) {
+              answerEl.setAttribute("data-state", "correct");
+            } else {
+              answerEl.setAttribute("data-state", "incorrect");
+            }
+          } else if (answer.type === "int") {
+            let givenAnswer = answerEl.querySelector("input").value;
+            if (!givenAnswer) {
+              answerEl.setAttribute("data-state", "empty");
+              allDone = false;
+
+              continue;
+            }
+
+            if (math.equal(answer.value, parseInt(givenAnswer))) {
               answerEl.setAttribute("data-state", "correct");
             } else {
               answerEl.setAttribute("data-state", "incorrect");
@@ -394,6 +419,10 @@ class SuperMaths {
           partEl.querySelector(".explanation").classList.add("show");
         }
       }
+    }
+
+    if (allDone) {
+      this.topicQuestions.classList.add("all-done");
     }
   }
 }

@@ -89,3 +89,29 @@ supermaths.addQuestion("fractions", {
     }
   ]
 });
+
+supermaths.addQuestion("fractions", {
+  header:
+    "Look at the following fraction sum: \\(\\frac{a}{11} + \\frac{b}{6} = " +
+    "\\frac{25}{33}\\)",
+  parts: [
+    {
+      text:
+        "Work out the values of \\(a\\) and \\(b\\), given that they are " +
+        "positive integers.",
+      answers: [
+        {
+          label: "a =",
+          value: "1",
+          type: "int"
+        },
+        {
+          label: "b =",
+          value: "4",
+          type: "int"
+        }
+      ],
+      explanation: ["no"]
+    }
+  ]
+});
