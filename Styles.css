@@ -79,16 +79,21 @@ body {
   display: block;
 }
 
+.supermaths .category {
+  font-family: "Bungee", sans-serif;
+  font-size: 2em;
+  margin-bottom: 25px;
+}
+
 .supermaths .topic {
   display: block;
   background-color: teal;
   color: white;
   padding: 10px;
-  font-size: 1.5em;
+  font-size: 0.75em;
   text-decoration: none;
   transition: background-color 0.1s;
-  margin-bottom: 25px;
-  font-family: "Bungee", sans-serif;
+  margin-top: 10px;
 }
 .supermaths .topic:hover {
   background-color: lightseagreen;

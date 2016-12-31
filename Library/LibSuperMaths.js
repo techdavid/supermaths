@@ -21,6 +21,7 @@
 class SuperMaths {
   constructor(container) {
     this.topics = {};
+    this.categories = {};
     this.globalVars = {};
 
     var supermaths = document.createElement("div");
@@ -198,7 +199,14 @@ class SuperMaths {
     topic.textContent = name;
     topic.href = `#topic=${id}`;
 
-    this.topicList.appendChild(topic);
+    if (Object.keys(this.categories).indexOf(category) === -1) {
+      this.categories[category] = document.createElement("div");
+      this.categories[category].className = "category";
+      this.categories[category].textContent = category;
+      this.topicList.appendChild(this.categories[category]);
+    }
+
+    this.categories[category].appendChild(topic);
   }
 
   addQuestion(id, obj) {
