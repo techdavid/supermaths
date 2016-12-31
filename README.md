@@ -1,1 +1,1 @@
-# [Take me to SuperMaths!](https://super-maths.github.io/)
+# [Take me to SuperMaths!](https://supermaths.netlify.com/)
