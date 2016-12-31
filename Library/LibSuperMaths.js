@@ -107,7 +107,7 @@ class SuperMaths {
         var right = obj.addto - left;
         return [
           left / (left + right),
-          "\\(" + left.toString() + ":" + right.toString() + "\\)"
+          "\\(" + left + ":" + right + "\\)"
         ];
       };
     }
@@ -186,9 +186,10 @@ class SuperMaths {
     this.globalVars[id] = SuperMaths.template(obj);
   }
 
-  addTopic(id, name) {
+  addTopic(id, name, category) {
     this.topics[id] = {
       name: name,
+      category: category,
       questions: []
     };
 
@@ -261,8 +262,10 @@ class SuperMaths {
     this.topicQuestions.innerHTML = "";
     this.topicQuestions.setAttribute("data-id", id);
 
-    this.page.textContent = this.topics[id].name;
-    document.title = `SuperMaths – ${this.topics[id].name}`;
+    this.page.textContent =
+      this.topics[id].name + " (" + this.topics[id].category + ")";
+    document.title =
+      `SuperMaths – ${this.topics[id].name} (${this.topics[id].category})`;
 
     var answers = [];
 
@@ -275,15 +278,15 @@ class SuperMaths {
 
       let n = document.createElement("div");
       n.className = "number";
-      n.textContent = (i + 1).toString();
+      n.textContent = i + 1;
       q.appendChild(n);
 
-      var h = document.createElement("p");
+      let h = document.createElement("p");
       h.className = "question-header";
       h.textContent = question.header;
       q.appendChild(h);
 
-      var p = document.createElement("div");
+      let p = document.createElement("div");
       p.className = "parts";
       q.appendChild(p);
       for (let j = 0; j < question.parts.length; j += 1) {
@@ -363,11 +366,16 @@ class SuperMaths {
     validate.onclick = () => this.validate(answers);
     this.topicQuestions.appendChild(validate);
 
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    this.score = document.createElement("div");
+    this.score.className = "score";
+    this.topicQuestions.appendChild(this.score);
+
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
   }
 
   validate(answers) {
     var allDone = true;
+    var score = {my: 0, max: 0};
 
     for (let i = 0; i < answers.length; i += 1) {
       let question = answers[i];
@@ -382,6 +390,8 @@ class SuperMaths {
           let answerEl = partEl.querySelectorAll(".answer")[k];
 
           if (answer.type === "fraction") {
+            score.max += 2;
+
             let fmath = math.create({number: "Fraction"});
 
             let top = answerEl.querySelector(".top").value;
@@ -396,10 +406,13 @@ class SuperMaths {
 
             if (math.equal(fmath.eval(top + "/" + bottom), answer.value)) {
               answerEl.setAttribute("data-state", "correct");
+              score.my += 2;
             } else {
               answerEl.setAttribute("data-state", "incorrect");
             }
           } else if (answer.type === "int") {
+            score.max += 1;
+
             let givenAnswer = answerEl.querySelector("input").value;
             if (!givenAnswer) {
               answerEl.setAttribute("data-state", "empty");
@@ -410,6 +423,7 @@ class SuperMaths {
 
             if (math.equal(answer.value, parseInt(givenAnswer))) {
               answerEl.setAttribute("data-state", "correct");
+              score.my += 1;
             } else {
               answerEl.setAttribute("data-state", "incorrect");
             }
@@ -423,6 +437,7 @@ class SuperMaths {
 
     if (allDone) {
       this.topicQuestions.classList.add("all-done");
+      this.score.textContent = score.my + " / " + score.max;
     }
   }
 }

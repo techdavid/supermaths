@@ -211,7 +211,7 @@ body {
   transition: color 0.1s;
 }
 
-.supermaths .validate {
+.supermaths .validate, .supermaths .score {
   background-color: limegreen;
   color: white;
   padding: 10px;
@@ -222,8 +222,22 @@ body {
   transition: background-color 0.1s;
   margin-bottom: 25px;
 }
+.supermaths .all-done .validate {
+  display: none;
+}
 .supermaths .validate:hover {
   background-color: lime;
+}
+
+.supermaths .score {
+  cursor: default;
+  display: none;
+}
+.supermaths .all-done .score {
+  display: inline-block;
+}
+.supermaths .score:before {
+  content: "Score: ";
 }
 
 .supermaths .explanation {
@@ -234,7 +248,7 @@ body {
   font-family: "Roboto Slab", serif;
   display: none;
 }
-.supermaths .questions.all-done .explanation.show {
+.supermaths .all-done .explanation.show {
   display: block;
 }
 

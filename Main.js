@@ -32,9 +32,9 @@ supermaths.boilerplate("HAIRCOLOUR", {
   values: ["blonde", "pink", "brown", "black", "chesnut"]
 });
 
-supermaths.addTopic("fractions", "Fractions");
+supermaths.addTopic("gcse-fractions", "Fractions", "GCSE");
 
-supermaths.addQuestion("fractions", {
+supermaths.addQuestion("gcse-fractions", {
   boilerplate: {
     "A": {
       type: "ratio",
@@ -63,7 +63,7 @@ supermaths.addQuestion("fractions", {
     {
       text:
         "What fraction of the pupils in the school are girls in Year " +
-        "%SCHOOLYEAR with %HAIRCOLOUR hair?",
+        "%SCHOOLYEAR with %HAIRCOLOUR hair? [2 marks]",
       answers: [
         {
           label: "answer:",
@@ -90,7 +90,7 @@ supermaths.addQuestion("fractions", {
   ]
 });
 
-supermaths.addQuestion("fractions", {
+supermaths.addQuestion("gcse-fractions", {
   header:
     "Look at the following fraction sum: \\(\\frac{a}{11} + \\frac{b}{6} = " +
     "\\frac{25}{33}\\)",
@@ -98,7 +98,7 @@ supermaths.addQuestion("fractions", {
     {
       text:
         "Work out the values of \\(a\\) and \\(b\\), given that they are " +
-        "positive integers.",
+        "positive integers. [2 marks]",
       answers: [
         {
           label: "a =",
