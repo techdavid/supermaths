@@ -271,9 +271,9 @@ class SuperMaths {
     this.topicQuestions.setAttribute("data-id", id);
 
     this.page.textContent =
-      this.topics[id].name + " (" + this.topics[id].category + ")";
+      this.topics[id].category + " › " + this.topics[id].name;
     document.title =
-      `SuperMaths – ${this.topics[id].name} (${this.topics[id].category})`;
+      `SuperMaths – ${this.topics[id].category} › ${this.topics[id].name}`;
 
     var answers = [];
 
