@@ -29,7 +29,7 @@ supermaths.boilerplate("GIRLNAME", {
 });
 supermaths.boilerplate("HAIRCOLOUR", {
   type: "list",
-  values: ["blonde", "pink", "brown", "black", "chesnut"]
+  values: ["blonde", "pink", "brown", "black", "chestnut"]
 });
 
 supermaths.addTopic("gcse-fractions", "Fractions", "GCSE");
